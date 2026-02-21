@@ -62,6 +62,37 @@ Regras de extração — leia com atenção:
 - Nunca derive "arr" a partir de "mrr" ou qualquer outro campo.
 - Em caso de ambiguidade, prefira sempre null a arriscar um valor incorreto.
 
+Mapeamento de seções — CRÍTICO, siga à risca:
+
+O texto do CRM possui duas seções distintas. Você DEVE identificá-las e
+extrair cada campo exclusivamente da seção correta.
+
+SEÇÃO "Negociação" (ou equivalente — cabeçalho da oportunidade):
+  → "nome"              = nome da negociação/oportunidade (NÃO é o nome de uma pessoa)
+  → "nome_escola"       = nome da escola ou instituição
+  → "vendedor"          = vendedor responsável pela negociação
+  → "perfil_escola"     = perfil ou descrição da escola
+  → "numero_alunos"     = número ou faixa de alunos
+  → "nivel_prioridade"  = nível de prioridade (ex: "GRUPO A", "GRUPO B")
+  → "mrr"               = MRR acordado
+  → "arr"               = ARR (nunca derive de mrr)
+  → "dor_escola"        = principais dores ou problemas da escola
+  → "valor_implantacao" = valor de implantação
+  → "link_contrato"     = link do contrato
+  → "forma_implantacao" = forma de implantação (ex: "Remota", "Presencial")
+
+SEÇÃO "Contatos" (ou equivalente — lista de contatos da negociação):
+  → "contato_nome"      = nome do contato listado nesta seção
+  → "contato_telefone"  = telefone do contato listado nesta seção
+  → "contato_email"     = e-mail do contato listado nesta seção
+
+Regras específicas para campos de contato:
+- "contato_nome" deve vir EXCLUSIVAMENTE da seção "Contatos".
+  Nunca use o nome da negociação nem qualquer nome da seção "Negociação".
+- Se houver múltiplos contatos, extraia apenas o primeiro.
+- Se a seção "Contatos" não existir ou estiver vazia, retorne null para
+  contato_nome, contato_telefone e contato_email.
+
 Estrutura esperada:
 {
   "nome": string | null,
