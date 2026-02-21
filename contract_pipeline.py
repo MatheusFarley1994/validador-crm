@@ -1,13 +1,13 @@
 """
 contract_pipeline.py
-Orquestrador do fluxo completo de validação contratual.
+Orquestrador do fluxo de validação contratual — dados comerciais.
 
 Fluxo:
     texto_contrato
-        → contract_model_detector  (detecta o modelo)
-        → contract_parser          (extrai dados estruturados via IA)
+        → contract_model_detector   (detecta o modelo)
+        → contract_parser           (extrai dados estruturados via IA)
         → contract_fields_validator (valida campos obrigatórios)
-        → contract_clause_validator (valida integridade das cláusulas)
+        → comparar_crm_contrato     (warnings de divergência CRM × contrato)
         → resultado consolidado
 """
 
@@ -16,34 +16,89 @@ from typing import Optional
 from contract_model_detector   import detectar_modelo_contrato
 from contract_parser           import extrair_dados_contrato
 from contract_fields_validator import validar_campos_contrato
-from contract_clause_validator import validar_clausulas
 
 
 # --------------------------------------------------------------------------- #
-# Helpers internos                                                             #
+# Comparação CRM × Contrato                                                   #
+# --------------------------------------------------------------------------- #
+
+def comparar_crm_contrato(
+    dados_crm:      dict,
+    dados_contrato: dict,
+) -> list[str]:
+    """
+    Compara campos comerciais entre os dados do CRM e os dados do contrato.
+
+    Divergências geram warnings — nunca erros críticos. O status_final
+    resultante de divergências é "revisao_manual", não "invalido".
+
+    Comparações realizadas:
+        - numero_alunos (CRM) vs alunos_totais (Contrato)
+        - valor_implantacao (CRM) vs implantacao (Contrato)
+
+    Parâmetros:
+        dados_crm (dict): Campos extraídos pelo crm_parser.
+        dados_contrato (dict): Campos extraídos pelo contract_parser.
+
+    Retorna:
+        list[str]: Lista de warnings de divergência. Vazia se tudo consistente.
+    """
+    warnings: list[str] = []
+
+    comparacoes = [
+        (
+            "numero_alunos",    dados_crm,
+            "alunos_totais",    dados_contrato,
+            "Número de alunos",
+        ),
+        (
+            "valor_implantacao", dados_crm,
+            "implantacao",       dados_contrato,
+            "Valor de implantação",
+        ),
+    ]
+
+    for campo_crm, fonte_crm, campo_contrato, fonte_contrato, label in comparacoes:
+        val_crm      = fonte_crm.get(campo_crm)
+        val_contrato = fonte_contrato.get(campo_contrato)
+
+        # Só compara se ambos os valores estiverem presentes
+        if val_crm is None or val_contrato is None:
+            continue
+
+        try:
+            if float(val_crm) != float(val_contrato):
+                warnings.append(
+                    f"{label} divergente entre CRM e contrato: "
+                    f"CRM={val_crm}, Contrato={val_contrato}."
+                )
+        except (TypeError, ValueError):
+            # Valores não comparáveis numericamente — ignora silenciosamente
+            pass
+
+    return warnings
+
+
+# --------------------------------------------------------------------------- #
+# Status final                                                                 #
 # --------------------------------------------------------------------------- #
 
 def _determinar_status_final(
-    validacao_campos:    dict,
-    validacao_clausulas: dict,
+    validacao_campos:       dict,
+    warnings_crm_contrato:  list[str],
 ) -> str:
     """
-    Determina o status_final consolidado do pipeline.
+    Determina o status_final do pipeline contratual.
 
     Regras (em ordem de prioridade):
-        1. Campos inválidos                           → "invalido"
-        2. Cláusulas ausentes ou extras               → "invalido"
-        3. Nível de risco "alto" ou "medio"           → "revisao_manual"
-        4. Tudo válido e risco baixo                  → "valido"
+        1. Erro crítico de campo         → "invalido"
+        2. Divergência CRM × contrato    → "revisao_manual"
+        3. Tudo consistente              → "valido"
     """
     if not validacao_campos["valido"]:
         return "invalido"
 
-    if validacao_clausulas["clausulas_ausentes"] or validacao_clausulas["clausulas_extras"]:
-        return "invalido"
-
-    nivel_risco = validacao_clausulas["nivel_risco"]
-    if nivel_risco in ("alto", "medio"):
+    if warnings_crm_contrato:
         return "revisao_manual"
 
     return "valido"
@@ -54,34 +109,32 @@ def _determinar_status_final(
 # --------------------------------------------------------------------------- #
 
 def executar_pipeline_contrato(
-    texto_contrato:  str,
-    api_key:         Optional[str] = None,
-    diretorio_base:  Optional[str] = None,
+    texto_contrato: str,
+    dados_crm:      Optional[dict] = None,
+    api_key:        Optional[str]  = None,
 ) -> dict:
     """
-    Executa o pipeline completo de validação contratual.
+    Executa o pipeline de validação contratual baseado em dados comerciais.
 
     Parâmetros:
         texto_contrato (str): Texto bruto extraído do contrato via OCR ou PDF.
-        api_key (str, opcional): Chave da API Anthropic. Se None, usa
-            a variável de ambiente ANTHROPIC_API_KEY.
-        diretorio_base (str, opcional): Diretório com os arquivos de modelo base
-            para validação de cláusulas. Se None, usa o diretório do módulo
-            contract_clause_validator.
+        dados_crm (dict, opcional): Campos do CRM para comparação cruzada.
+            Se fornecido, ativa a detecção de divergências CRM × contrato.
+        api_key (str, opcional): Chave da API Anthropic. Se None, usa a
+            variável de ambiente ANTHROPIC_API_KEY.
 
     Retorna:
         dict com:
             - modelo (str): Modelo detectado ("novo" ou "antigo_v13").
             - dados_extraidos (dict): Campos extraídos pelo contract_parser.
-            - validacao_campos (dict): Resultado de validar_campos_contrato.
-            - validacao_clausulas (dict): Resultado de validar_clausulas.
+            - validacao_campos (dict): Resultado de validar_campos_contrato
+              com chaves: valido (bool), erros_criticos (list), warnings (list).
+            - warnings_crm_contrato (list[str]): Divergências entre CRM e contrato.
             - status_final (str): "valido", "invalido" ou "revisao_manual".
-            - nivel_risco (str): Nível de risco das cláusulas ("baixo"/"medio"/"alto").
 
     Lança:
         ValueError: Se o texto estiver vazio, o modelo for desconhecido ou
             a resposta da IA for inválida.
-        FileNotFoundError: Se o arquivo de modelo base de cláusulas não existir.
         RuntimeError: Em caso de falha na chamada à API da Anthropic.
     """
     if not texto_contrato or not texto_contrato.strip():
@@ -109,24 +162,21 @@ def executar_pipeline_contrato(
     # ── Etapa 3: Validação de campos ─────────────────────────────────────────
     validacao_campos = validar_campos_contrato(resultado_parser)
 
-    # ── Etapa 4: Validação de cláusulas ──────────────────────────────────────
-    validacao_clausulas = validar_clausulas(
-        modelo          = modelo,
-        texto_contrato  = texto_contrato,
-        diretorio_base  = diretorio_base,
+    # ── Etapa 4: Comparação CRM × Contrato ───────────────────────────────────
+    warnings_crm_contrato = comparar_crm_contrato(
+        dados_crm      = dados_crm or {},
+        dados_contrato = dados_extraidos,
     )
 
     # ── Etapa 5: Consolidação ─────────────────────────────────────────────────
-    status_final = _determinar_status_final(validacao_campos, validacao_clausulas)
-    nivel_risco  = validacao_clausulas["nivel_risco"]
+    status_final = _determinar_status_final(validacao_campos, warnings_crm_contrato)
 
     return {
-        "modelo":               modelo,
-        "dados_extraidos":      dados_extraidos,
-        "validacao_campos":     validacao_campos,
-        "validacao_clausulas":  validacao_clausulas,
-        "status_final":         status_final,
-        "nivel_risco":          nivel_risco,
+        "modelo":                modelo,
+        "dados_extraidos":       dados_extraidos,
+        "validacao_campos":      validacao_campos,
+        "warnings_crm_contrato": warnings_crm_contrato,
+        "status_final":          status_final,
     }
 
 
@@ -137,25 +187,20 @@ def executar_pipeline_contrato(
 def _exibir_resultado(resultado: dict) -> None:
     """Exibe o resultado do pipeline de forma legível no terminal."""
     STATUS_SIMBOLO = {
-        "valido":          "✔",
-        "invalido":        "✘",
-        "revisao_manual":  "⚠",
+        "valido":         "✔",
+        "invalido":       "✘",
+        "revisao_manual": "⚠",
     }
-    RISCO_SIMBOLO = {"baixo": "🟢", "medio": "🟡", "alto": "🔴"}
 
-    status      = resultado["status_final"]
-    risco       = resultado["nivel_risco"]
-    simbolo     = STATUS_SIMBOLO.get(status, "?")
-    simbolo_r   = RISCO_SIMBOLO.get(risco, "?")
+    status  = resultado["status_final"]
+    simbolo = STATUS_SIMBOLO.get(status, "?")
 
     print("\n" + "═" * 50)
     print("  RESULTADO DO PIPELINE CONTRATUAL")
     print("═" * 50)
     print(f"  Modelo detectado  : {resultado['modelo']}")
     print(f"  Status final      : {simbolo}  {status.upper()}")
-    print(f"  Nível de risco    : {simbolo_r}  {risco.upper()}")
 
-    # Campos
     vc = resultado["validacao_campos"]
     print(f"\n  ── Validação de Campos {'✔' if vc['valido'] else '✘'}")
     if vc["erros_criticos"]:
@@ -167,17 +212,11 @@ def _exibir_resultado(resultado: dict) -> None:
     if not vc["erros_criticos"] and not vc["warnings"]:
         print("       Nenhum problema encontrado.")
 
-    # Cláusulas
-    vl = resultado["validacao_clausulas"]
-    print(f"\n  ── Validação de Cláusulas {'✔' if vl['valido'] else '✘'}")
-    if vl["clausulas_ausentes"]:
-        print(f"       Ausentes : {vl['clausulas_ausentes']}")
-    if vl["clausulas_extras"]:
-        print(f"       Extras   : {vl['clausulas_extras']}")
-    if vl["clausulas_alteradas"]:
-        print(f"       Alteradas: {vl['clausulas_alteradas']}")
-    if not any([vl["clausulas_ausentes"], vl["clausulas_extras"], vl["clausulas_alteradas"]]):
-        print("       Nenhum problema encontrado.")
+    w_crm = resultado["warnings_crm_contrato"]
+    if w_crm:
+        print("\n  ── Divergências CRM × Contrato")
+        for w in w_crm:
+            print(f"       ⚠ {w}")
 
     print("═" * 50)
 
@@ -187,25 +226,6 @@ def _exibir_resultado(resultado: dict) -> None:
 # --------------------------------------------------------------------------- #
 
 if __name__ == "__main__":
-    import tempfile
-    import os
-
-    MODELO_BASE = """\
-1. OBJETO DO CONTRATO
-O presente contrato tem por objeto a prestação de serviços de software educacional.
-
-1.1 O serviço será prestado de forma contínua durante o prazo de vigência.
-
-2. PRAZO DE VIGÊNCIA
-O contrato terá duração de 12 meses, renovável automaticamente.
-
-3. VALOR E REAJUSTE
-O valor mensal é fixo, sujeito a reajuste anual pelo IPCA.
-
-4. RESCISÃO
-A rescisão antecipada implica multa de 30% sobre o valor restante.
-"""
-
     TEXTO_CONTRATO = """\
 CONTRATO DE ASSINATURA DE SOFTWARE (SaaS)
 ANEXO 1 - TABELA RESUMO COMERCIAL
@@ -223,37 +243,22 @@ Assinatura Mensal: R$ 890,00
 Início da Implantação: 01/03/2025
 Início da Cobrança: 01/04/2025
 Cards Enviados: Sim
-
-1. OBJETO DO CONTRATO
-O presente contrato tem por objeto a prestação de serviços de software educacional.
-
-1.1 O serviço será prestado de forma contínua durante o prazo de vigência.
-
-2. PRAZO DE VIGÊNCIA
-O contrato terá duração de 12 meses, renovável automaticamente.
-
-3. VALOR E REAJUSTE
-O valor mensal é fixo, sujeito a reajuste anual pelo IPCA.
-
-4. RESCISÃO
-A rescisão antecipada implica multa de 30% sobre o valor restante.
 """
 
-    with tempfile.TemporaryDirectory() as tmpdir:
-        base_path = os.path.join(tmpdir, "modelo_novo_base.txt")
-        with open(base_path, "w", encoding="utf-8") as f:
-            f.write(MODELO_BASE)
+    # Dados do CRM com divergência proposital no número de alunos
+    DADOS_CRM_EXEMPLO = {
+        "numero_alunos":    350,   # diverge do contrato (420)
+        "valor_implantacao": 3500, # igual ao contrato
+    }
 
-        try:
-            resultado = executar_pipeline_contrato(
-                texto_contrato = TEXTO_CONTRATO,
-                diretorio_base = tmpdir,
-            )
-            _exibir_resultado(resultado)
+    try:
+        resultado = executar_pipeline_contrato(
+            texto_contrato = TEXTO_CONTRATO,
+            dados_crm      = DADOS_CRM_EXEMPLO,
+        )
+        _exibir_resultado(resultado)
 
-        except ValueError as e:
-            print(f"\n[ERRO DE VALIDAÇÃO] {e}")
-        except FileNotFoundError as e:
-            print(f"\n[ERRO DE ARQUIVO] {e}")
-        except RuntimeError as e:
-            print(f"\n[ERRO DE API] {e}")
+    except ValueError as e:
+        print(f"\n[ERRO DE VALIDAÇÃO] {e}")
+    except RuntimeError as e:
+        print(f"\n[ERRO DE API] {e}")

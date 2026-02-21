@@ -482,27 +482,21 @@ _STATUS_BADGE = {
 
 def _render_contrato(saida_contrato: dict) -> None:
     """Renderiza o card de resultado do pipeline de contrato."""
-    vc  = saida_contrato["validacao_campos"]
-    vcl = saida_contrato["validacao_clausulas"]
-    status  = saida_contrato["status_final"]
-    risco   = saida_contrato["nivel_risco"]
-    modelo  = saida_contrato["modelo"]
+    vc     = saida_contrato["validacao_campos"]
+    status = saida_contrato["status_final"]
+    modelo = saida_contrato["modelo"]
+    warns  = saida_contrato.get("warnings_crm_contrato", [])
+    badge  = _STATUS_BADGE.get(status, "")
 
-    risco_css  = _RISCO_COR.get(risco, "")
-    risco_icon = _RISCO_ICONE.get(risco, "")
-    badge      = _STATUS_BADGE.get(status, "")
-
-    # Status + modelo + risco
+    # Status + modelo
     st.markdown(
         f'<div style="margin-bottom:0.75rem">{badge}</div>'
         f'<div class="info-row"><span class="info-label">Modelo</span>'
-        f'<span class="info-value">{modelo}</span></div>'
-        f'<div class="info-row"><span class="info-label">Nível de risco</span>'
-        f'<span class="info-value {risco_css}">{risco_icon} {risco.upper()}</span></div>',
+        f'<span class="info-value">{modelo}</span></div>',
         unsafe_allow_html=True,
     )
 
-    # Erros de campos
+    # Erros críticos de campos
     if vc["erros_criticos"]:
         st.markdown('<div style="margin-top:0.75rem">', unsafe_allow_html=True)
         for e in vc["erros_criticos"]:
@@ -512,7 +506,7 @@ def _render_contrato(saida_contrato: dict) -> None:
             )
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # Warnings de campos
+    # Warnings de campos (numérico/limiar)
     if vc["warnings"]:
         for w in vc["warnings"]:
             st.markdown(
@@ -520,36 +514,20 @@ def _render_contrato(saida_contrato: dict) -> None:
                 unsafe_allow_html=True,
             )
 
-    # Cláusulas
-    def _clausula_tags(marcadores: list, css_class: str) -> str:
-        return "".join(
-            f'<span class="clausula-tag {css_class}">{m}</span>'
-            for m in marcadores
-        )
-
-    if vcl["clausulas_ausentes"]:
+    # Warnings de divergência CRM × contrato
+    if warns:
         st.markdown(
-            f'<div style="margin-top:0.6rem;font-size:0.75rem;color:rgba(240,238,255,0.4);margin-bottom:0.25rem">Ausentes</div>'
-            + _clausula_tags(vcl["clausulas_ausentes"], ""),
+            '<div style="margin-top:0.6rem;font-size:0.75rem;color:rgba(240,238,255,0.4);margin-bottom:0.25rem">'
+            'Divergências CRM × Contrato</div>',
             unsafe_allow_html=True,
         )
+        for w in warns:
+            st.markdown(
+                f'<div class="warning-item"><span style="color:#ff9f0a;font-size:0.6rem;margin-top:0.25rem">▲</span>{w}</div>',
+                unsafe_allow_html=True,
+            )
 
-    if vcl["clausulas_extras"]:
-        st.markdown(
-            f'<div style="margin-top:0.6rem;font-size:0.75rem;color:rgba(240,238,255,0.4);margin-bottom:0.25rem">Extras</div>'
-            + _clausula_tags(vcl["clausulas_extras"], "extra"),
-            unsafe_allow_html=True,
-        )
-
-    if vcl["clausulas_alteradas"]:
-        st.markdown(
-            f'<div style="margin-top:0.6rem;font-size:0.75rem;color:rgba(240,238,255,0.4);margin-bottom:0.25rem">Alteradas</div>'
-            + _clausula_tags(vcl["clausulas_alteradas"], "alterada"),
-            unsafe_allow_html=True,
-        )
-
-    if not any([vc["erros_criticos"], vcl["clausulas_ausentes"],
-                vcl["clausulas_extras"], vcl["clausulas_alteradas"]]):
+    if not any([vc["erros_criticos"], vc["warnings"], warns]):
         st.markdown(
             '<p style="color:rgba(240,238,255,0.3);font-size:0.78rem;margin-top:0.5rem">'
             'Nenhum problema encontrado.</p>',
@@ -719,6 +697,7 @@ with col_result:
                         raise ValueError("O PDF do contrato não contém texto legível.")
                     saida_contrato = executar_pipeline_contrato(
                         texto_contrato = texto_contrato,
+                        dados_crm      = saida_crm.get("dados", {}),
                     )
                 except ValueError as e:
                     _render_erro_inline("Erro no pipeline Contrato", str(e))
