@@ -484,15 +484,12 @@ def _render_contrato(saida_contrato: dict) -> None:
     """Renderiza o card de resultado do pipeline de contrato."""
     vc     = saida_contrato["validacao_campos"]
     status = saida_contrato["status_final"]
-    modelo = saida_contrato["modelo"]
     warns  = saida_contrato.get("warnings_crm_contrato", [])
     badge  = _STATUS_BADGE.get(status, "")
 
-    # Status + modelo
+    # Status
     st.markdown(
-        f'<div style="margin-bottom:0.75rem">{badge}</div>'
-        f'<div class="info-row"><span class="info-label">Modelo</span>'
-        f'<span class="info-value">{modelo}</span></div>',
+        f'<div style="margin-bottom:0.75rem">{badge}</div>',
         unsafe_allow_html=True,
     )
 
@@ -551,9 +548,13 @@ def _separar_arquivos(uploaded_files) -> tuple[list, list]:
     return imagens, pdfs
 
 
-def _status_geral(status_crm: str, status_contrato: str) -> str:
+def _status_geral(
+    status_crm:      str | None,
+    status_contrato: str | None,
+) -> str:
     """
-    Consolida os dois status em um único status_geral.
+    Consolida os status dos pipelines executados em um único status_geral.
+    Aceita None quando um dos pipelines não foi executado no modo atual.
 
     Regras (ordem de prioridade):
         1. CRM inválido                 → "invalido"
@@ -573,9 +574,9 @@ def _status_geral(status_crm: str, status_contrato: str) -> str:
 def _render_banner_status(status: str) -> None:
     """Exibe o banner de status geral no topo dos resultados."""
     config = {
-        "valido":         ("✔", "APROVADO — CRM e contrato válidos"),
+        "valido":         ("✔", "APROVADO — Todos os dados validados com sucesso"),
         "invalido":       ("✘", "REPROVADO — Foram encontrados erros críticos"),
-        "revisao_manual": ("⚠", "REVISÃO MANUAL — Cláusulas alteradas ou risco elevado"),
+        "revisao_manual": ("⚠", "REVISÃO MANUAL — Divergências ou alertas encontrados"),
     }
     icone, texto = config.get(status, ("?", status.upper()))
     st.markdown(
@@ -638,7 +639,8 @@ with col_upload:
         '<p style="color:rgba(240,238,255,0.2);font-size:0.72rem;line-height:1.6">'
         '<strong style="color:rgba(240,238,255,0.4)">Imagens (JPG, PNG)</strong> → Pipeline CRM<br>'
         '<strong style="color:rgba(240,238,255,0.4)">PDF</strong> → Pipeline Contrato<br><br>'
-        'Envie ao menos 1 imagem e exatamente 1 PDF.<br><br>'
+        'Envie imagens, um PDF, ou ambos.<br>'
+        'Com imagens + PDF a comparação CRM × contrato é ativada.<br><br>'
         'Certifique-se que a variável <code style="color:#6339ff">ANTHROPIC_API_KEY</code> está configurada.'
         '</p>',
         unsafe_allow_html=True,
@@ -651,18 +653,13 @@ with col_result:
 
         imagens, pdfs = _separar_arquivos(uploaded_files)
 
-        # ── Validações de entrada ────────────────────────────────────────── #
-        if not imagens:
-            _render_erro_inline("Arquivos insuficientes", "Envie ao menos uma imagem (JPG ou PNG) com os prints do CRM.")
-            st.stop()
-
-        if not pdfs:
-            _render_erro_inline("Arquivo ausente", "Envie o contrato em formato PDF.")
-            st.stop()
-
+        # ── Validação única: deve haver ao menos um arquivo ──────────────── #
         if len(pdfs) > 1:
             _render_erro_inline("PDFs em excesso", f"Apenas 1 PDF é permitido por validação. Foram enviados {len(pdfs)}.")
             st.stop()
+
+        tem_crm      = bool(imagens)
+        tem_contrato = bool(pdfs)
 
         # ── Salva arquivos temporários ───────────────────────────────────── #
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -674,44 +671,51 @@ with col_result:
                     f.write(uf.getbuffer())
                 caminhos_imagens.append(destino)
 
-            caminho_pdf = os.path.join(tmpdir, pdfs[0].name)
-            with open(caminho_pdf, "wb") as f:
-                f.write(pdfs[0].getbuffer())
+            if tem_contrato:
+                caminho_pdf = os.path.join(tmpdir, pdfs[0].name)
+                with open(caminho_pdf, "wb") as f:
+                    f.write(pdfs[0].getbuffer())
+
+            saida_crm      = None
+            saida_contrato = None
 
             # ── Pipeline CRM (imagens) ───────────────────────────────────── #
-            with st.spinner("Processando CRM..."):
-                try:
-                    saida_crm = executar_pipeline(caminhos_imagens)
-                except ValueError as e:
-                    _render_erro_inline("Erro no pipeline CRM", str(e))
-                    st.stop()
-                except RuntimeError as e:
-                    _render_erro_inline("Falha no pipeline CRM", str(e))
-                    st.stop()
+            if tem_crm:
+                with st.spinner("Processando CRM..."):
+                    try:
+                        saida_crm = executar_pipeline(caminhos_imagens)
+                    except ValueError as e:
+                        _render_erro_inline("Erro no pipeline CRM", str(e))
+                        st.stop()
+                    except RuntimeError as e:
+                        _render_erro_inline("Falha no pipeline CRM", str(e))
+                        st.stop()
 
             # ── Pipeline Contrato (PDF) ──────────────────────────────────── #
-            with st.spinner("Processando contrato..."):
-                try:
-                    texto_contrato = extract_text_pdf(caminho_pdf)
-                    if not texto_contrato or not texto_contrato.strip():
-                        raise ValueError("O PDF do contrato não contém texto legível.")
-                    saida_contrato = executar_pipeline_contrato(
-                        texto_contrato = texto_contrato,
-                        dados_crm      = saida_crm.get("dados", {}),
-                    )
-                except ValueError as e:
-                    _render_erro_inline("Erro no pipeline Contrato", str(e))
-                    st.stop()
-                except FileNotFoundError as e:
-                    _render_erro_inline("Arquivo base não encontrado", str(e))
-                    st.stop()
-                except RuntimeError as e:
-                    _render_erro_inline("Falha no pipeline Contrato", str(e))
-                    st.stop()
+            if tem_contrato:
+                with st.spinner("Processando contrato..."):
+                    try:
+                        texto_contrato = extract_text_pdf(caminho_pdf)
+                        if not texto_contrato or not texto_contrato.strip():
+                            raise ValueError("O PDF do contrato não contém texto legível.")
+                        saida_contrato = executar_pipeline_contrato(
+                            texto_contrato = texto_contrato,
+                            dados_crm      = saida_crm.get("dados", {}) if saida_crm else None,
+                        )
+                    except ValueError as e:
+                        _render_erro_inline("Erro no pipeline Contrato", str(e))
+                        st.stop()
+                    except FileNotFoundError as e:
+                        _render_erro_inline("Arquivo base não encontrado", str(e))
+                        st.stop()
+                    except RuntimeError as e:
+                        _render_erro_inline("Falha no pipeline Contrato", str(e))
+                        st.stop()
 
             # ── Consolidação ─────────────────────────────────────────────── #
-            status_crm = saida_crm["resultado"]["status"]
-            status_geral = _status_geral(status_crm, saida_contrato["status_final"])
+            status_crm      = saida_crm["resultado"]["status"] if saida_crm else None
+            status_contrato = saida_contrato["status_final"]   if saida_contrato else None
+            status_geral    = _status_geral(status_crm, status_contrato)
 
             # ── Banner de status geral ───────────────────────────────────── #
             _render_banner_status(status_geral)
@@ -719,38 +723,43 @@ with col_result:
             # ── Arquivos processados ─────────────────────────────────────── #
             st.markdown('<div class="card">', unsafe_allow_html=True)
             st.markdown('<div class="card-title">📂 &nbsp;Arquivos processados</div>', unsafe_allow_html=True)
-            _render_arquivos(saida_crm["sucessos"], saida_crm["falhas"])
-            st.markdown(f'<span class="file-tag">📑 {pdfs[0].name}</span>', unsafe_allow_html=True)
+            if saida_crm:
+                _render_arquivos(saida_crm["sucessos"], saida_crm["falhas"])
+            if tem_contrato:
+                st.markdown(f'<span class="file-tag">📑 {pdfs[0].name}</span>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
 
-            # ── Texto CRM consolidado ────────────────────────────────────── #
-            with st.expander("🔍  Ver texto extraído do CRM", expanded=False):
-                st.markdown(
-                    f'<div class="text-preview">{saida_crm["texto"][:1200]}'
-                    f'{"…" if len(saida_crm["texto"]) > 1200 else ""}</div>',
-                    unsafe_allow_html=True,
-                )
+            # ── Texto CRM consolidado (só se CRM foi executado) ──────────── #
+            if saida_crm:
+                with st.expander("🔍  Ver texto extraído do CRM", expanded=False):
+                    st.markdown(
+                        f'<div class="text-preview">{saida_crm["texto"][:1200]}'
+                        f'{"…" if len(saida_crm["texto"]) > 1200 else ""}</div>',
+                        unsafe_allow_html=True,
+                    )
 
-            # ── Dados CRM + Validação CRM ────────────────────────────────── #
-            c1, c2 = st.columns([1.3, 1])
+            # ── Dados CRM + Validação CRM (só se CRM foi executado) ──────── #
+            if saida_crm:
+                c1, c2 = st.columns([1.3, 1])
 
-            with c1:
+                with c1:
+                    st.markdown('<div class="card">', unsafe_allow_html=True)
+                    st.markdown('<div class="card-title">🗂 &nbsp;Dados CRM extraídos</div>', unsafe_allow_html=True)
+                    _render_dados(saida_crm["dados"])
+                    st.markdown('</div>', unsafe_allow_html=True)
+
+                with c2:
+                    st.markdown('<div class="card">', unsafe_allow_html=True)
+                    st.markdown('<div class="card-title">✅ &nbsp;Validação CRM</div>', unsafe_allow_html=True)
+                    _render_resultado(saida_crm["resultado"])
+                    st.markdown('</div>', unsafe_allow_html=True)
+
+            # ── Card Contrato (só se contrato foi executado) ─────────────── #
+            if saida_contrato:
                 st.markdown('<div class="card">', unsafe_allow_html=True)
-                st.markdown('<div class="card-title">🗂 &nbsp;Dados CRM extraídos</div>', unsafe_allow_html=True)
-                _render_dados(saida_crm["dados"])
+                st.markdown('<div class="card-title">📜 &nbsp;Validação do Contrato</div>', unsafe_allow_html=True)
+                _render_contrato(saida_contrato)
                 st.markdown('</div>', unsafe_allow_html=True)
-
-            with c2:
-                st.markdown('<div class="card">', unsafe_allow_html=True)
-                st.markdown('<div class="card-title">✅ &nbsp;Validação CRM</div>', unsafe_allow_html=True)
-                _render_resultado(saida_crm["resultado"])
-                st.markdown('</div>', unsafe_allow_html=True)
-
-            # ── Card Contrato ────────────────────────────────────────────── #
-            st.markdown('<div class="card">', unsafe_allow_html=True)
-            st.markdown('<div class="card-title">📜 &nbsp;Validação do Contrato</div>', unsafe_allow_html=True)
-            _render_contrato(saida_contrato)
-            st.markdown('</div>', unsafe_allow_html=True)
 
     elif not uploaded_files:
         st.markdown("""
