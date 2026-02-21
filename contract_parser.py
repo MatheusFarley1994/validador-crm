@@ -86,11 +86,8 @@ Não inclua o campo "modelo" — ele é gerenciado exclusivamente pelo backend.
 # Helpers internos                                                             #
 # --------------------------------------------------------------------------- #
 
-def _build_user_message(texto_bruto: str, modelo: str) -> str:
-    return (
-        f"Modelo de contrato identificado: {modelo}\n\n"
-        f"Extraia os dados do seguinte contrato:\n\n{texto_bruto}"
-    )
+def _build_user_message(texto_bruto: str) -> str:
+    return f"Extraia os dados do seguinte contrato:\n\n{texto_bruto}"
 
 
 def _parse_json_response(content: str) -> dict:
@@ -172,15 +169,11 @@ def _parse_json_response(content: str) -> dict:
     )
 
 
-def _garantir_campos(resultado: dict, modelo: str) -> dict:
+def _garantir_campos(resultado: dict) -> dict:
     """
     Garante que o retorno contenha a estrutura completa esperada,
     preenchendo campos ausentes com None.
-
-    O campo "modelo" é sempre sobrescrito com o valor detectado pelo backend,
-    ignorando qualquer valor que a IA possa ter retornado.
     """
-    resultado["modelo"] = modelo  # sempre injetado pelo backend, nunca pela IA
     resultado.setdefault("dados", {})
 
     for campo in CAMPOS_DADOS:
@@ -263,41 +256,30 @@ def _validar_estrutura(resultado: dict) -> None:
 # --------------------------------------------------------------------------- #
 
 def extrair_dados_contrato(
-    texto_bruto:      str,
-    modelo_detectado: str,
-    api_key:          Optional[str] = None,
+    texto_bruto: str,
+    api_key:     Optional[str] = None,
 ) -> dict:
     """
     Extrai dados estruturados de um contrato escolar a partir de texto bruto.
 
-    O modelo do contrato deve ser detectado externamente (ex: pelo pipeline)
-    e passado via modelo_detectado. O parser confia exclusivamente nesse valor,
-    sem realizar nenhuma detecção própria.
-
     Parâmetros:
         texto_bruto (str): Texto extraído do contrato via OCR ou PDF parser.
-        modelo_detectado (str): Modelo já identificado — "novo" ou "antigo_v13".
-            Deve ser fornecido pelo chamador; nunca é inferido internamente.
         api_key (str, opcional): Chave da API Anthropic. Se omitida, usa a
             variável de ambiente ANTHROPIC_API_KEY.
 
     Retorna:
         dict no formato:
             {
-                "modelo": "antigo_v13" | "novo",
                 "dados": { ...campos extraídos... }
             }
 
     Lança:
-        ValueError: Se o texto estiver vazio, o modelo for inválido, o JSON
-            retornado for inválido, a estrutura estiver incompleta ou algum campo
-            contiver tipo incompatível.
+        ValueError: Se o texto estiver vazio, o JSON retornado for inválido,
+            a estrutura estiver incompleta ou algum campo contiver tipo incompatível.
         RuntimeError: Em caso de falha na chamada à API da Anthropic.
     """
     if not texto_bruto or not texto_bruto.strip():
         raise ValueError("O texto do contrato está vazio.")
-
-    modelo = modelo_detectado
 
     # 1. Chamada à API
     client = anthropic.Anthropic(
@@ -313,7 +295,7 @@ def extrair_dados_contrato(
             messages=[
                 {
                     "role": "user",
-                    "content": _build_user_message(texto_bruto, modelo),
+                    "content": _build_user_message(texto_bruto),
                 }
             ],
         )
@@ -328,7 +310,7 @@ def extrair_dados_contrato(
     _validar_estrutura(resultado)
 
     # 5. Normalização: injeta modelo e garante todos os campos
-    resultado = _garantir_campos(resultado, modelo)
+    resultado = _garantir_campos(resultado)
 
     return resultado
 
@@ -363,12 +345,8 @@ if __name__ == "__main__":
     print("=== Contract Parser — Exemplo de Extração ===\n")
 
     try:
-        resultado = extrair_dados_contrato(
-            texto_bruto      = TEXTO_EXEMPLO_NOVO,
-            modelo_detectado = "novo",
-        )
+        resultado = extrair_dados_contrato(texto_bruto=TEXTO_EXEMPLO_NOVO)
 
-        print(f"Modelo detectado : {resultado['modelo']}\n")
         print("Dados extraídos:")
         for campo, valor in resultado["dados"].items():
             print(f"  {campo:<25} : {valor}")
