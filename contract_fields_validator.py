@@ -11,6 +11,8 @@ from typing import Optional
 # Configuração de campos por modelo                                            #
 # --------------------------------------------------------------------------- #
 
+# "comercial" é o modo genérico usado pelo pipeline quando não há detecção de template.
+# Utiliza o mesmo conjunto de campos obrigatórios que "novo".
 CAMPOS_OBRIGATORIOS: dict[str, list[str]] = {
     "novo": [
         "nome_escola",
@@ -42,9 +44,42 @@ CAMPOS_OBRIGATORIOS: dict[str, list[str]] = {
         "inicio_cobranca",
         "cards_enviados",
     ],
+    "comercial": [
+        "nome_escola",
+        "razao_social",
+        "cnpj",
+        "email_login",
+        "email_financeiro",
+        "whatsapp",
+        "alunos_totais",
+        "alunos_gamificados",
+        "implantacao",
+        "assinatura",
+        "inicio_implantacao",
+        "inicio_cobranca",
+        "cards_enviados",
+    ],
 }
 
 CAMPOS_NUMERICOS = {"alunos_totais", "alunos_gamificados", "implantacao"}
+
+# Lista fixa de campos obrigatórios para validação comercial.
+# Independente de modelo ou template de contrato.
+CAMPOS_COMERCIAIS: list[str] = [
+    "nome_escola",
+    "razao_social",
+    "cnpj",
+    "email_login",
+    "email_financeiro",
+    "whatsapp",
+    "alunos_totais",
+    "alunos_gamificados",
+    "implantacao",
+    "assinatura",
+    "inicio_implantacao",
+    "inicio_cobranca",
+    "cards_enviados",
+]
 
 PLACEHOLDERS = {"{{", "}}", "____", "xxxxx"}
 
@@ -165,10 +200,12 @@ def validar_campos_contrato(resultado_parser: dict) -> dict:
     """
     Valida de forma determinística os campos extraídos de um contrato escolar.
 
+    Opera sobre campos comerciais fixos, sem dependência de modelo ou template.
+    O campo "modelo" no resultado_parser é ignorado.
+
     Parâmetros:
         resultado_parser (dict): Saída do contract_parser.py no formato:
             {
-                "modelo": "antigo_v13" | "novo",
                 "dados": { ...campos extraídos... }
             }
 
@@ -179,29 +216,18 @@ def validar_campos_contrato(resultado_parser: dict) -> dict:
             - warnings (list[str]): Alertas que não invalidam o contrato.
 
     Lança:
-        ValueError: Se a estrutura de entrada for inválida.
+        ValueError: Se "dados" estiver ausente ou não for um dicionário.
     """
-    # Validação da entrada
-    modelo = resultado_parser.get("modelo")
-    dados  = resultado_parser.get("dados")
+    dados = resultado_parser.get("dados")
 
-    if not modelo or not isinstance(modelo, str):
-        raise ValueError("Campo 'modelo' ausente ou inválido na entrada.")
     if not isinstance(dados, dict):
         raise ValueError("Campo 'dados' ausente ou não é um dicionário.")
-    if modelo not in CAMPOS_OBRIGATORIOS:
-        raise ValueError(
-            f"Modelo '{modelo}' não reconhecido. "
-            f"Esperado: {list(CAMPOS_OBRIGATORIOS.keys())}."
-        )
 
     erros:    list[str] = []
     warnings: list[str] = []
 
-    campos_obrigatorios = CAMPOS_OBRIGATORIOS[modelo]
-
-    # 1. Presença, vazio, espaços e placeholders
-    _validar_presenca(dados, campos_obrigatorios, erros)
+    # 1. Presença, vazio, espaços e placeholders — campos comerciais fixos
+    _validar_presenca(dados, CAMPOS_COMERCIAIS, erros)
 
     # 2. Regras numéricas e comparações
     _validar_numericos(dados, erros, warnings)
