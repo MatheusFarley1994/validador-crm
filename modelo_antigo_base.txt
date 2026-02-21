@@ -1,0 +1,193 @@
+﻿CONTRATO DE PRESTAÇÃO DE SERVIÇOS FIRMADO ENTRE GAMEFIK E CONTRATANTE
+Tabela de resumo
+Nome da escola
+	{{Nome da escola}}
+	Razão social
+	{{Razão social}}
+	Cnpj
+	{{CNPJ}}
+	Email de login na Gamefik
+	{{E-mail de login}}
+	Email responsável financeiro
+	{{E-mail financeiro}}
+	WhatsApp de contato
+	{{Whatsapp de contato}}
+	Alunos Totais na Escola
+	{{Número de alunos da escola (Somente números)}}
+	Alunos Gamificados
+	{{Número de alunos que pretende Gamificar (Somente números)}}
+	Implantação
+	{{Implantação}}
+	Materiais contratados
+	{{Itens contratados}}
+	Assinatura
+	{{Tabela de preço}}
+	Condição especial
+	1º Ano: {{Desconto especial}} por {{Tempo de desconto}}
+2º Ano: {{Desconto 2º ano}} por {{Tempo desconto 2º ano}}
+	Início da Implantação
+	{{Início da Implantação}}
+	Primeira mensalidade
+	{{Início da cobrança}}
+	Cancelamento
+	Aviso prévio de 30 dias
+	Valor mínimo contrato
+	{{Valor mínimo contrato}}
+	Cards a serem enviados
+	{{Cards a serem enviados}}
+	Saldo em loja
+	{{Saldo em loja}}
+	Inteligência Artificial (IA)
+	{{Desconto IA}} por {{Tempo de desconto IA}}
+	
+
+
+
+
+
+CONTRATANTE: Escola {{Tipo de escola}}: {{Razão social}} inscrita no CNPJ:  {{CNPJ}} sediada na {{Logradouro}}, {{Número}}, {{Complemento}}, {{Bairro}}, {{Cidade}}, {{Estado}} CEP: {{CEP}}.
+CONTRATADA: GAMEFIK INDUSTRIA, COMERCIO E SERVICOS LTDA, inscrita no CNPJ n. 08.282.552/0001-41, sediada na Rua Apucarana, Número 209, Bairro Ouro Preto, Belo Horizonte, CEP 31310-520 e no cadastro estadual nº 003073992.00-73 
+As partes identificadas têm, entre si, justo e acertado o presente Contrato de prestação de serviços de assessoria e consultoria técnica especializada no processo de gamificação e de cessão de uso de software que se regerá pelas cláusulas seguintes e pelas condições descritas no presente. 
+I - DO OBJETO 
+Constitui-se como objeto do presente contrato: 
+a) Prestação de serviços de assessoria e consultoria técnica especializada no processo de gamificação, capacitação e adoção de boas práticas.
+b) Cessão de uso de software, consistente no fornecimento de aplicativos pela internet no formato de assinatura, para a melhoria da interação entre professores e alunos do colégio CONTRATANTE, a fim de tornar a escola e a participação nas atividades mais atraentes para os alunos. 
+II – DAS OBRIGAÇÕES DA GAMEFIK 
+a) Oferecer o aplicativo indispensável ao cumprimento do objeto contratado. 
+b) Empregar conteúdos e técnicas adequados na configuração do aplicativo (implantação) para que a CONTRATANTE consiga inserir os dados necessários para usufruir do software.
+c) Prestar apoio consultivo na definição de regras e parâmetros para a configuração dos serviços principais e adicionais para elaborar o game design em trabalho conjunto com o CONTRATANTE. 
+d) Criar o Game CONTRATANTE (conta admin para a escola e a inserção dos alunos) na plataforma Gamefik. 
+
+
+
+
+e) Enviar e/ou boleto ou dados bancários para crédito em conta no prazo de 5(cinco) dias antes do vencimento. Bem como o envio da Nota Fiscal após o pagamento. 
+
+
+
+
+III – DAS OBRIGAÇÕES DO CONTRATANTE 
+a) Quando necessário, permitir acesso dos colaboradores da GAMEFIK aos locais e equipamentos da CONTRATANTE a fim de possibilitar o bom e fiel cumprimento deste instrumento, colaborando para a tomada de medidas necessárias à prestação de serviços. 
+b) Definir os professores e equipe pedagógica que participarão dos treinamentos e definições das regras para elaboração do Game CONTRATANTE. 
+c) Definir um colaborador responsável pelo game e responsável por acompanhar a gamificação e interagir com o time da Gamefik. 
+d) Fornecer dados históricos relacionados aos pontos que o game irá impactar (exemplo: taxa de faltas, taxa de atrasos, média de notas, dentre outros) para que a Gamefik possa mensurar o impacto a curto, médio e longo prazo do processo de gamificação na escola. 
+
+
+e) Usar a solução de forma ativa, seja via integração ou lançamento de professores. Entendendo que a não utilização da solução, por parte da escola não a exime das obrigações de pagamentos estipuladas neste contrato. 
+IV – DOS VALORES E FORMAS DE PAGAMENTO 
+IV.I DA IMPLANTAÇÃO 
+
+a) O CONTRATANTE concorda em pagar à CONTRATADA uma taxa de implantação única, no valor descrito na "Tabela resumo" no campo "Implantação" para cada escola, devida e pagável no momento da execução deste contrato. Esta taxa não é reembolsável e cobre os custos de configuração e implementação do Sistema. 
+
+b) A GAMEFIK compromete-se a entregar os itens necessários para a implantação do serviço no prazo de 15 (quinze) dias úteis a contar da assinatura do contrato. Este prazo é estabelecido para assegurar a eficácia e a eficiência na implementação dos serviços contratados.
+
+c) O Preço de Implantação inclui o serviço de acompanhamento durante o processo de implementação, a criação de uma conta personalizada no Sistema para o CONTRATANTE, bem como o treinamento do corpo docente do CONTRATANTE na utilização do Sistema. Todas as etapas ocorrerão na modalidade a distância (on-line). 
+
+
+d) A CONTRATADA prestará ao CONTRATANTE conselhos sobre a aquisição de Equipamentos, se solicitada, mas não assume nenhuma responsabilidade pela compra, instalação ou manutenção dos mesmos. A responsabilidade da CONTRATADA se limita à prestação de serviços especificados no Preço de Implantação.
+
+
+e) Caso ocorra a necessidade de serviços adicionais não especificados neste contrato durante a fase de implementação, tais serviços serão objeto de um acordo separado e estarão sujeitos a cobrança adicional.
+
+
+f) O pagamento da Taxa de Implantação deve ser realizado através dos métodos de pagamento especificados pela CONTRATADA. O CONTRATANTE compromete-se a efetuar o pagamento de acordo com as condições acordadas e dentro do prazo estabelecido.
+
+g) A CONTRATADA, em caráter promocional, concede à CONTRATANTE um desconto especial no valor das mensalidades da plataforma Gamefik, conforme acordado no momento da contratação.
+
+h) Este desconto está expressamente condicionado à conclusão da implantação da plataforma no prazo máximo de 40 (quarenta) dias corridos, contados a partir da data de assinatura do presente contrato ou da data prevista na “Tabela Resumo” no campo Inicio da Implantação.
+
+i) Caso a CONTRATANTE, por motivos não atribuíveis à CONTRATADA, não conclua a implantação no prazo de 40 dias, o desconto concedido será revogado, e o valor integral das mensalidades originalmente previstas será automaticamente aplicado a partir do ciclo seguinte.
+IV.II DA ASSINATURA 
+
+
+a) O CONTRATANTE concorda em pagar à CONTRATADA uma taxa mensal de assinatura pelo uso do Sistema. O valor desta taxa será determinado de acordo com o número de alunos matriculados na instituição do CONTRATANTE, conforme especificado na Tabela de Preços que se encontra na "Tabela Resumo" no campo "Assinatura".
+
+
+Condições especiais de assinatura: 
+1. A escola terá o desconto descrito na "Tabela Resumo" no campo "Condição Especial".
+
+As condições acima, tem validade de dois dias úteis pois fazem parte de uma campanha de implementação subsidiada que possui limite máximo de instituições. Portanto, a CONTRATADA reserva-se o direito de não dar continuidade nas condições especiais, sem que sejam necessárias quaisquer justificativas.
+
+
+b) A primeira mensalidade terá vencimento no dia conforme previsto na "Tabela de resumo"  no campo "Primeira mensalidade" , a cobrança é devida e não depende da utilização ou da conclusão da implantação. 
+
+c) As demais mensalidades referentes a assinatura mensal será devida e pagável com vencimento para o {{Dia para vencimento das faturas mensalmente}} de cada mês.
+
+d) O sistema será automaticamente bloqueado após 3 (três) dias corridos do vencimento do boleto, permanecendo inacessível até a regularização da pendência financeira. Este procedimento visa enfatizar a importância da pontualidade nos pagamentos para a continuidade do acesso aos serviços.
+
+e) O cliente que se tornar inadimplente terá até 30 (trinta) dias corridos, a partir da data de vencimento do boleto, para regularizar sua situação. Persistindo a inadimplência após este período, o contrato será automaticamente cancelado, implicando na cobrança de uma multa correspondente a uma mensalidade adicional. Em caso de reativação do serviço, será necessária a cobrança de uma nova taxa de implantação.
+
+f) O CONTRATANTE reconhece que a taxa de assinatura mensal é variável, dependendo do número de alunos matriculados na instituição, o cálculo do valor variável de mensalidade é feito no último dia útil do mês anterior à cobrança. Qualquer alteração no número de alunos pode resultar em um ajuste na taxa mensal de assinatura, que será aplicado no mês seguinte à alteração.
+
+g) O pagamento da taxa de assinatura mensal deve ser realizado através dos métodos de pagamento especificados pela CONTRATADA. O CONTRATANTE compromete-se a efetuar o pagamento de acordo com as condições acordadas e dentro do prazo estabelecido.
+
+
+h) O atraso no pagamento das parcelas acarretará multa mensal de 2% (dois por cento acrescida de juros de 1% (um por cento) e correção monetária. 
+
+
+i) Os preços e valores que constam deste contrato poderão ser reajustados anualmente, no último dia de cada mês de março, através do IPCA, fornecido pelo IBGE, ou outro índice que eventualmente venha a substituí-lo. 
+
+
+j) Os períodos de férias e recesso não isentam a escola dos compromissos acordados no presente contrato enquanto vigente. 
+
+
+l) Mensalidade Mínima, Incluindo Zero Alunos: a mensalidade mínima é de acordo com o valor descrito na "Tabela resumo"  no campo "Assinatura" independentemente do número de alunos cadastrados na plataforma. As condições especiais descritas na “Tabela resumo” também são aplicadas ao valor mínimo.
+
+
+
+
+
+
+
+V - CONFIDENCIALIDADE DOS DADOS 
+a) Toda e qualquer informação, imagens, dados e acervo gerados/fornecidos antes, durante e após o serviço contratado são de propriedade exclusiva do CONTRATANTE, não podendo a GAMEFIK, em hipótese alguma, e sujeita às penalidades previstas em lei, especialmente a LGPD,  utilizá-los para nenhum fim, exceto para o objeto do contrato firmado entre as partes. 
+
+
+b) A GAMEFIK compromete-se a manter sigilo, tanto escrito como verbal, ou por qualquer outra forma, de todos os dados, informações técnicas e, sobre todo o acervo de materiais obtidos antes, durante e após os anos que se sucederem à prestação dos serviços, podendo incluir, mas não se limitando a: banco de dados, fotografias, imagens, vídeos, áudios, planilhas, material pedagógico, projetos, pesquisas e dados estatísticos. 
+
+
+c) A GAMEFIK não é autorizada a revelar, reproduzir, utilizar ou dar conhecimento, em hipótese alguma, o banco de dados ou quaisquer outras informações, imagens, dados e acervo gerados/fornecidos antes, durante e após o serviço contratado 
+
+
+d) Todo e qualquer material gerado pela GAMEFIK só poderá ser utilizado/publicado mediante prévia autorização da CONTRATANTE. 
+
+
+e) A GAMEFIK não será responsável pela divulgação de informações, no todo ou em parte, se puder comprovar que tais informações: (a) Eram de domínio público à época em que foram recebidas ou subsequentemente se tornaram de domínio público sem qualquer violação por parte da GAMEFIK; (b) Eram conhecidas por ou eram de propriedade da GAMEFIK à época do recebimento; ou (c) Tornaram-se conhecidas pela GAMEFIK de uma fonte que não a CONTRATANTE, sem violação de uma obrigação de confidencialidade. 
+
+
+f) Na hipótese de qualquer ação judicial ou exigência legal para divulgação de informações confidenciais fornecidas nos termos do Contrato, a GAMEFIK notificará imediatamente a CONTRATANTE e, mediante a solicitação e à custa da CONTRATANTE, cooperará com a CONTRATANTE para contestar legalmente a obrigatoriedade de tal divulgação, de modo que, não sendo possível deter a imposição judicial, eventual divulgação não será, em qualquer hipótese, considerada infração da presente cláusula. 
+VI – DA RESCISÃO 
+A solicitação de rescisão deste contrato poderá ser feita a qualquer momento desde que respeitado o prazo de 30 dias, a solicitação deve ser formalizada no seguinte endereço: https://abrir.link/KiMrV
+
+VII – DOS PRAZOS 
+a) O presente contrato tem duração de 12 meses. O contrato tem renovação automática de mais doze meses. Para a não renovação o CONTRATANTE deve comunicar à CONTRATADA 60 dias antes do final do período. 
+
+
+VIII - DAS CONDIÇÕES GERAIS 
+1. A GAMEFIK detém todos os direitos exclusivos sobre suas soluções inovadoras, metodologias, conteúdos e software desenvolvidos ou fornecidos. Fica estritamente proibido a entidades ou indivíduos, sem uma autorização expressa e formalizada por escrito pela GAMEFIK, realizar cópias, reproduções, alterações ou qualquer uso dos recursos aqui mencionados com finalidade de criação ou promoção de produtos ou serviços concorrentes. Esta restrição visa assegurar a proteção integral da propriedade intelectual da GAMEFIK, prevenindo apropriações indevidas e a concorrência desleal.
+
+Em caso de violação desta cláusula por parte do CONTRATANTE ou de terceiros que tenham acessado as soluções da GAMEFIK através deste, sem limitação aos danos materiais e morais passíveis de ressarcimento, será aplicada uma multa equivalente a 50 (cinquenta) vezes o valor da maior mensalidade comercializada no ano vigente, além da obrigatoriedade de indenização por perdas e danos comprovadamente gerados à GAMEFIK.
+
+
+Esta penalidade é estabelecida sem prejuízo das demais sanções legais, civis e criminais, previstas na legislação brasileira em vigor, incluindo as disposições da Lei de Direitos Autorais (Lei nº 9.610/98), da Lei de Propriedade Industrial (Lei nº 9.279/96) e do Código Civil Brasileiro (Lei nº 10.406/2002), que tratam da proteção à propriedade intelectual e das consequências decorrentes de sua violação.
+b) É vedado qualquer procedimento que implique engenharia reversa, descompilação, adaptação e/ou modificação do aplicativo, ou qualquer outra conduta que possibilite o acesso ao seu código-fonte e, ainda, qualquer alteração não autorizada de suas funcionalidades. 
+c) A GAMEFIK não se responsabiliza pelos resultados produzidos pelo aplicativo, caso esse seja afetado por algum tipo de programa externo, por integração do aplicativo objeto deste contrato com qualquer outro software de terceiros ou da CONTRATANTE e por operação do aplicativo por pessoas não autorizadas. 
+d) A GAMEFIK desincumbe-se de qualquer responsabilidade em caso de defeito decorrente de culpa exclusiva da CONTRATANTE, tais como, por exemplo, mau uso ou negligência, assim como daqueles resultantes de eventos definidos na legislação civil como caso fortuito ou força maior. 
+e) Não acontecendo a implantação e realização do game conforme contratado e definidos nos itens (b) e (c) do parágrafo VII-DOS PRAZOS, as parcelas vincendas não deverão ser pagas. 
+f) Este instrumento começa a valer a partir da assinatura de ambas as partes. 
+IX - DO FORO 
+As partes elegem o foro da comarca de Belo Horizonte/MG para conhecer as ações oriundas deste contrato. 
+
+
+ANUÊNCIA PARA ASSINATURA ELETRÔNICA 
+O signatário do presente termo declara, sob as penas da lei, que é procurador ou representante legal, devidamente constituídos na forma do Estatuto ou Contrato Social da LICENCIADA, com poderes para assumir as obrigações ora contraídas. 
+E que, estando de acordo com as cláusulas e condições expressas neste documento, concorda e firma este documento de forma eletrônica, conforme regulamentado pela MEDIDA PROVISÓRIA No 2.200-2, DE 24 DE AGOSTO DE 2001, Art. 10 Parágrafo 2o.   
+
+
+
+
+
+
+__________________________________________________
+Assinatura Gamefik - Sócio/Fundador Breno Leles Braga
+Pág. /

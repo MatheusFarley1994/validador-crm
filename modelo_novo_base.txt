@@ -1,0 +1,157 @@
+CONTRATO DE ASSINATURA DE SOFTWARE (SaaS) E SERVIÇOS DE IMPLANTAÇÃO - GAMEFIK
+
+ANEXO 1 - TABELA RESUMO COMERCIAL
+
+Este Anexo define as condições comerciais e os dados cadastrais da Escola. Em caso de conflito entre este Anexo e as cláusulas do Contrato, prevalece o Anexo 1 quanto a valores, prazos e condições comerciais.
+
+Nome da escola: CCAA RIBEIRAO PRETO - CENTRO
+Razão social: ALMC ENSINO DE IDIOMAS LTDA
+CNPJ: 63.819.492/0001-61
+E-mail de login na Gamefik: ribeiraopreto@ccaa.com.br
+
+E-mail responsável financeiro: ribeiraopreto@ccaa.com.br
+
+WhatsApp de contato: (16) 3636-3956
+Alunos totais na escola: 60
+Alunos gamificados (se aplicável): 60
+Implantação (taxa): 230
+Materiais/itens contratados: Nenhum
+
+Assinatura (tabela de preço):
+Até 100 alunos R$120/mês.
+De 101-200 alunos R$150/mês.
+De 201-300 alunos R$160/mês.
+De 301-600 alunos R$220/mês.
+De 601-1000 alunos R$360/mês.
+Acima de 1000 alunos R$360,00/mês.
+
+Início da implantação: 19/02/2026
+Início da cobrança / primeira mensalidade: 10/03/2026
+Desconto 1º ano: 1º Ano: Nenhum
+Cards a serem enviados: 0
+
+Partes
+
+1.1. CONTRATANTE: Escola Extracurricular: ALMC ENSINO DE IDIOMAS LTDA, inscrita no CNPJ 63.819.492/0001-61, sediada na Rua Prudente de Morais, 872, CCAA, CENTRO, Ribeirão Preto/SP, CEP 14015-100 ("Escola").
+
+1.2. CONTRATADA: GAMEFIK INDUSTRIA, COMERCIO E SERVICOS LTDA, CNPJ 08.282.552/0001-41, sediada na Rua Apucarana, 209, Ouro Preto, Belo Horizonte/MG, CEP 31310-520 ("Gamefik").
+
+Definições
+
+Plataforma/Sistema: conjunto de aplicações e serviços online disponibilizados pela Gamefik em modelo de assinatura.
+Usuários: pessoas autorizadas pela Escola (gestores, professores, pais e alunos) a acessar a Plataforma.
+Dados da Escola: informações, conteúdos e registros inseridos ou gerados a partir do uso da Plataforma, incluindo dados pessoais nos termos da LGPD.
+Tabela Resumo Comercial (Anexo 1): quadro com dados cadastrais e condições comerciais (implantação, mensalidade, descontos, data de início de cobrança etc.).
+
+Objeto e licença de uso
+
+3.1. Objeto. A Gamefik prestará (i) serviços de implantação, treinamento e apoio consultivo para configuração do uso da Plataforma; e (ii) licença de uso, não exclusiva, intransferível e por prazo determinado, para acesso à Plataforma pela Escola e seus Usuários, conforme Anexo 1.
+
+3.2. Limites. A licença não permite revenda, sublicenciamento, compartilhamento de credenciais, engenharia reversa, descompilação ou qualquer tentativa de acesso ao código-fonte, bem como cópia da Plataforma ou de seus conteúdos para fins concorrenciais.
+
+Implantação e treinamento
+
+4.1. A implantação inclui a configuração inicial, criação de conta administrativa e treinamento online, nos termos do Anexo 1.
+
+4.2. Prazos. A Gamefik iniciará a implantação na data indicada no Anexo 1 e disponibilizará os itens necessários em até 30 (trinta) dias úteis da assinatura, desde que a Escola forneça as informações solicitadas.
+
+4.3. Atrasos. Se a Escola não colaborar e/ou não fornecer informações necessárias, os prazos de implantação serão automaticamente prorrogados.
+
+4.4. Descontos condicionados. Caso a CONTRATANTE, por motivos não atribuíveis à CONTRATADA, não conclua a implantação no prazo de 40 dias, o desconto concedido no Anexo I será revogado, e o valor integral das mensalidades originalmente previstas será automaticamente aplicado a partir do ciclo seguinte.
+
+Suporte e atualizações
+
+5.1. A Gamefik prestará suporte remoto por canais digitais (ex.: chat, e-mail ou WhatsApp), em horário comercial, salvo condição diversa no Anexo 1.
+
+5.2. A Gamefik poderá realizar manutenções e atualizações para melhoria da Plataforma. Sempre que possível, manutenções programadas serão comunicadas com antecedência razoável.
+
+Obrigações da Escola
+
+Indicar um responsável ("Embaixador") para acompanhar a implantação e o uso da Plataforma.
+Garantir que seus Usuários utilizem a Plataforma de acordo com este Contrato e com as leis aplicáveis.
+Manter atualizados os dados cadastrais e os contatos financeiro e técnico.
+Fornecer e manter infraestrutura mínima (internet, dispositivos etc.) para acesso à Plataforma.
+Efetuar os pagamentos nas datas acordadas. A falta de uso da Plataforma não isenta o pagamento enquanto o Contrato estiver vigente.
+
+Preços, faturamento e reajustes
+
+7.1. Taxa de implantação. Se aplicável, a Escola pagará taxa única de implantação conforme Anexo 1. A taxa de implantação não é reembolsável (salvo se o Contrato for rescindido por culpa exclusiva da Gamefik, nos termos da Cláusula 11.4).
+
+7.2. Mensalidade. A Escola pagará mensalidade de assinatura conforme Anexo 1. Se houver mensalidade mínima, ela se aplica independentemente do número de alunos cadastrados/ativos, conforme Anexo 1.
+
+7.3. Salvo previsão expressa no Anexo 1, a mensalidade será calculada com base no número de alunos cadastrados na Plataforma Gamefik, conforme leitura realizada no último dia útil de cada mês, a qual servirá como referência para a cobrança do mês subsequente. A Escola compromete-se a manter as informações cadastrais atualizadas, reconhecendo como válida a leitura efetuada pela Gamefik para fins de faturamento.
+
+7.4. Vencimento. A primeira mensalidade vence na data definida no Anexo 1 e as demais vencem no dia 10 de cada mês.
+
+7.5. Reajuste. Os valores poderão ser reajustados anualmente pelo IPCA/IBGE ou índice que o substitua, sempre na data de aniversário do Contrato, salvo disposição diversa no Anexo 1.
+
+7.6. Atrasos. Em caso de atraso, aplica-se multa de 2% e juros de 1% ao mês, pro rata die, além de correção monetária, sem prejuízo da suspensão prevista na Cláusula 8.
+
+Suspensão por inadimplência
+
+8.1. Se houver atraso superior a 10 (dez) dias corridos, a Gamefik poderá suspender o acesso à Plataforma até a regularização.
+
+8.2. Se a inadimplência persistir por mais de 30 (trinta) dias corridos do vencimento, a Gamefik poderá rescindir o Contrato, mantendo-se devidas as quantias vencidas e uma multa rescisória equivalente a 1 (uma) mensalidade vigente.
+
+Dados, confidencialidade e LGPD
+
+9.1. Propriedade dos Dados da Escola. Os Dados da Escola permanecem de titularidade e responsabilidade da Escola. A Gamefik os tratará apenas para executar o Contrato e cumprir obrigações legais.
+
+9.2. Papéis LGPD. Em regra, a Escola atuará como Controladora e a Gamefik como Operadora dos Dados Pessoais tratados na Plataforma, observadas as instruções documentadas da Escola.
+
+9.3. Segurança. A Gamefik manterá medidas técnicas e administrativas razoáveis para proteger os dados contra acessos não autorizados, destruição, perda ou alteração.
+
+9.4. Uso agregado e anonimizado. A Gamefik poderá usar informações agregadas e anonimizadas, sem identificação de titulares, para estatísticas, melhoria de produto e inteligência de negócio.
+
+9.5. Confidencialidade. As partes deverão manter confidenciais informações não públicas obtidas em razão deste Contrato, exceto quando exigido por lei ou ordem de autoridade competente.
+
+Propriedade intelectual
+
+10.1. A Plataforma, suas funcionalidades, interfaces, metodologias e conteúdos padrão são de propriedade exclusiva da Gamefik. Este Contrato não transfere qualquer direito de propriedade intelectual à Escola, apenas concede licença de uso durante a vigência.
+
+10.2. Violação. Caso a Escola viole as restrições de cópia/engenharia reversa/uso concorrencial, ficará sujeita a multa não compensatória equivalente a 10 (dez) vezes o valor da mensalidade vigente, sem prejuízo de perdas e danos adicionais comprovados.
+
+Responsabilidades e limitações
+
+11.1. Sem garantia de resultado. A Gamefik não garante resultados pedagógicos ou financeiros específicos. O sucesso depende, entre outros fatores, da adesão e do uso pela Escola.
+
+11.2. Integrações e terceiros. A Gamefik não se responsabiliza por falhas decorrentes de serviços de terceiros, integrações, infraestrutura da Escola, ou uso indevido por Usuários.
+
+11.3. Limitação de responsabilidade. Exceto por dolo ou culpa grave, a responsabilidade total da Gamefik por danos diretos comprovados fica limitada ao valor total pago pela Escola nos 3 (três) meses anteriores ao evento que gerou o dano.
+
+11.4. Falha de implantação por culpa da Gamefik. Se, após notificação escrita e prazo de 15 (quinze) dias para correção, a Gamefik não iniciar ou não executar a implantação essencial por culpa exclusiva sua, a Escola poderá rescindir o Contrato e receber devolução proporcional de valores pagos e não utilizados, excluída a parte já prestada.
+
+Vigência, renovação e rescisão
+
+12.1. Vigência. O Contrato vige por 12 (doze) meses a partir da data de assinatura.
+
+12.2. Renovação. Ao final do prazo inicial, o Contrato será renovado automaticamente por novos períodos de 12 (doze) meses, salvo manifestação contrária de qualquer parte com antecedência mínima de 30 (trinta) dias do término do período vigente.
+
+12.3. A Escola poderá rescindir o Contrato antes do término do prazo inicial de vigência, mediante aviso prévio de 30 (trinta) dias, ficando obrigada ao pagamento de uma mensalidade adicional, equivalente ao valor da mensalidade vigente à época da rescisão, a título de multa rescisória, além das mensalidades eventualmente já vencidas e não pagas.
+
+12.4. Rescisão por justa causa. Qualquer parte poderá rescindir imediatamente em caso de violação material deste Contrato pela outra parte, não sanada em até 15 (quinze) dias da notificação.
+
+12.5. Efeitos. Encerrado o Contrato, a Escola perderá acesso à Plataforma. Mediante solicitação, a Gamefik disponibiliza exportação dos Dados da Escola em formato razoável por até 30 (trinta) dias. Após 60 (sessenta) dias do encerramento, a Gamefik poderá excluir os dados, ressalvadas obrigações legais de retenção.
+
+12.6. Canal de cancelamento. O pedido de cancelamento pode ser formalizado pelo link https://abrir.link/KiMrV
+ ou por e-mail ao contato informado no Anexo 1.
+
+Disposições gerais
+
+13.1. Caso fortuito e força maior. Nenhuma parte será responsável por atrasos ou falhas decorrentes de eventos fora de seu controle razoável.
+
+13.2. Comunicações. Comunicações formais deverão ser enviadas aos contatos indicados no Anexo 1, por e-mail.
+
+13.3. Cessão. A Escola não poderá ceder este Contrato sem autorização prévia e escrita da Gamefik. A Gamefik poderá ceder a empresas do mesmo grupo econômico, mediante notificação.
+
+13.4. Inteiro teor. Este Contrato e o Anexo 1 substituem entendimentos anteriores e representam o acordo integral entre as partes.
+
+Foro e assinatura eletrônica
+
+14.1. Foro. As partes elegem o foro da Comarca de Belo Horizonte/MG, com renúncia a qualquer outro, por mais privilegiado que seja.
+
+Anuência para assinatura eletrônica
+
+O signatário do presente termo declara, sob as penas da lei, que é procurador ou representante legal, devidamente constituído na forma do Estatuto ou Contrato Social da LICENCIADA, com poderes para assumir as obrigações ora contraídas.
+
+E que, estando de acordo com as cláusulas e condições expressas neste documento, concorda e firma este documento de forma eletrônica, conforme regulamentado pela MEDIDA PROVISÓRIA Nº 2.200-2, DE 24 DE AGOSTO DE 2001, Art. 10, Parágrafo 2º.
